@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ToolXai</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="header">
+        <div class="logo">
+          <img src="assets\toolxai.png" alt="ToolXai">
+        </div>
+        <div class="nav">
+        <a href="index.html">Home</a>
+              <a href="paraphraser.html">Paraphraser</a>
+              <a href="grammerchecker.html">Grammar Checker</a>
+              <a href="summarizer.html">Summarizar</a>
+              <a href="#">Image Reader Pro</a>
+    <label for="darkModeToggle">
+      &nbsp;
+      <input type="checkbox" id="darkModeToggle">
+      <span class="toggle-slider"></span>
+    </label>
+          
+
+    
+      </div>
+      <!-- <div class="premium">
+        <a href="#" style="text-decoration: none; color: #333;">Premium</a>
+      </div> -->
+  </div>
+  <div class="container">
+    <div class="header2">
+      <h1 style="color: rgb(255, 255, 255);">Image Reader Pro </h1>
+      <p style="color:rgb(255, 255, 255);">Describe, Answer, Text, Analyze </p>
+    </div>
+    <div class="main">
+      <div class="input" style="margin-top: 30px;
+      margin-bottom: 30px;">
+        <label for="imageInput">
+            <span class="upload-icon">
+                <img src="assets\icons8-upload-to-cloud-24.png"  alt="Upload Icon">
+            </span>
+            <span class="file-label">Choose Image</span>
+          </label>
+          <input type="file" id="imageInput" accept="image/*" hidden>
+          <div class="image-preview" style="margin-top: 10px;
+          margin-bottom: 10px;"></div>
+          <textarea id="inputText" <textarea style="margin-top: 10px;
+        margin-bottom: 10px; font-size: 16px; width: 100%; height: 100px; padding: 10px; border: 1px solid #ccc; 
+        margin-bottom: 0; border-radius: 10px; outline-color: rgba(0, 187, 136, 255); 
+        resize: none;" maxlength="5000" placeholder="What do you want to do ?"></textarea>
+        </div>
+      <div class="output">
+        <div id="loadingIndicator" style="display: none;">Generating...</div>
+        <textarea id="outputText" style="margin-top: -20px;
+margin-bottom: -20px;font-size: 16px;" placeholder="Generated text"></textarea>
+      </div>
+      <div class="buttons">
+          <button id="processBtn"><p style="font-size: 10px;color: #ffffff;"><b>Generate<b></p></button>
+        <button id="clearBtn"><p style="font-size: 10px;color: #ffffff;"><b>Clear</b></p></button>
+      </div>
+    </div>
+<div class="image-reader">
+    <h1>Image Reader Pro</h1>
+    <p>Turn images into text &amp; unlock their secrets.</p>
+  
+    <div class="superpowers">
+      <h2>Superpowers: 💡</h2>
+      <ul>
+        <li>Reads quections and give answer</li>
+        <li>Reads text in images: Documents, signs, screenshots become searchable.</li>
+        <li>Spots objects: People, animals, things, like magic.</li>
+        <li>Understands scenes: What's happening in the picture? It tells you.</li>
+      </ul>
+    </div>
+  
+    <div class="keep-in-mind">
+      <h2>Things to Keep in Mind:⭕</h2>
+      <ul>
+        <li>Not perfect in bad light or tricky pictures.</li>
+        <li>Knows more about some things than others.</li>
+        <li>Might have a little bias, we're working on it.</li>
+        <li>Free version has a daily limit: Use your requests wisely!</li>
+      </ul>
+    </div>
+  </div>
+  
+    <div class="footer">
+      <p>Made by Pramod with 💗 | © 2024 | 𝗔𝗹𝗹 𝗥𝗶𝗴𝗵𝘁𝘀 𝗥𝗲𝘀𝗲𝗿𝘃𝗲𝗱.</p>
+    </div>
+  </div>
+  <script type="importmap">
+    {
+      "imports": {
+        "@google/generative-ai": "https://esm.run/@google/generative-ai"
+      }
+    }
+  </script>
+
+  <script type="module">
+    import { GoogleGenerativeAI } from "@google/generative-ai";
+    import { HarmCategory, HarmBlockThreshold } from "@google/generative-ai";
+
+    const API_KEY = "AIzaSyAOxbcA3X5QDZcsKX8CIcn63kJfBGaQRS4";
+    const genAI = new GoogleGenerativeAI(API_KEY);
+
+    async function run() {
+      const model = genAI.getGenerativeModel({ model: "gemini-pro-vision" });
+
+      const inputText = document.getElementById("inputText");
+      const outputText = document.getElementById("outputText");
+      const loadingIndicator = document.getElementById("loadingIndicator");
+      const processBtn = document.getElementById("processBtn");
+      const clearBtn = document.getElementById("clearBtn");
+      const imageInput = document.getElementById("imageInput");
+
+      const generationConfig = {
+        temperature: 0.4,
+        topK: 32,
+        topP: 1,
+        maxOutputTokens: 4096,
+      };
+
+      const safetySettings = [
+        { category: HarmCategory.HARM_CATEGORY_HARASSMENT, threshold: HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE },
+        { category: HarmCategory.HARM_CATEGORY_HATE_SPEECH, threshold: HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE },
+        { category: HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT, threshold: HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE },
+        { category: HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT, threshold: HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE },
+      ];
+
+      processBtn.addEventListener("click", async () => {
+        const userInput = inputText.value.trim();
+        const imageFile = imageInput.files[0];
+
+        if (userInput === "" && !imageFile) {
+          alert("Please enter text or upload an image.");
+          return;
+        }
+
+        loadingIndicator.style.display = "block";
+        outputText.value = "";
+
+        try {
+          const imageParts = imageFile ? await fileToGenerativePart(imageFile) : [];
+          const parts = [...imageParts, { text: userInput }];
+
+          const result = await model.generateContent({
+            contents: [{ role: "user", parts }],
+            generationConfig,
+            safetySettings,
+          });
+
+          const response = await result.response;
+          const text = response.text().split(" ");
+          displayWords(text);
+
+          
+        } catch (error) {
+          console.error(error);
+          alert("An error occurred while processing. Please try again.");
+        } finally {
+          loadingIndicator.style.display = "none";
+        }
+      });
+      function displayWords(words) {
+  if (words.length > 0) {
+    outputText.value += words.shift() + " ";
+    setTimeout(displayWords, 70, words); // Pass words again in setTimeout
+  } else {
+    loadingIndicator.style.display = "none";
+  }
+}
+
+      clearBtn.addEventListener("click", () => {
+        inputText.value = "";
+        outputText.value = "";
+        imageInput.value = ""; // Clear the file input
+      });
+    }
+
+    async function fileToGenerativePart(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+
+        reader.onloadend = () => {
+          resolve([{ inlineData: { mimeType: file.type, data: reader.result.split(",")[1] } }]);
+        };
+
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
+    }
+    const darkModeToggle = document.getElementById("darkModeToggle");
+
+darkModeToggle.addEventListener("click", () => {
+  document.body.classList.toggle("dark");
+
+  // Optionally, save user preference using localStorage:
+  localStorage.setItem("darkMode", document.body.classList.contains("dark"));
+});
+
+// Check for saved preference:
+const isDarkModeEnabled = localStorage.getItem("darkMode") === "true";
+if (isDarkModeEnabled) {
+  document.body.classList.add("dark");
+}
+const imageInput = document.getElementById("imageInput");
+const imagePreview = document.querySelector(".image-preview");
+
+imageInput.addEventListener("change", (event) => {
+  const file = event.target.files[0];
+
+  if (file) {
+    const reader = new FileReader();
+
+    reader.onload = (e) => {
+      imagePreview.style.display = "block";
+      imagePreview.innerHTML = `<img src="${e.target.result}" alt="Selected Image">`;
+    };
+
+    reader.readAsDataURL(file);
+  } else {
+    imagePreview.style.display = "none";
+  }
+});
+
+const sentences = [
+  "What do you want to do?",
+  "Solve problem",
+  "Extract text",
+  "Give html code",
+  "Identify objects",
+  "Give answer"
+];
+let currentSentenceIndex = 0;
+
+function changePlaceholder() {
+  const placeholder = sentences[currentSentenceIndex];
+  inputText.placeholder = placeholder;
+
+  currentSentenceIndex = (currentSentenceIndex + 1) % sentences.length; // Cycle through sentences
+
+  setTimeout(changePlaceholder, 2000); // Change placeholder every 2 seconds
+}
+
+changePlaceholder(); // Start the animation
+
+
+
+    run();
+  </script>
+</body>
+
+</html>

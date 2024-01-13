@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ToolXai</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="header">
+        <div class="logo">
+          <img src="assets\toolxai.png" alt="ToolXai">
+        </div>
+        <div class="nav">
+          <a href="paraphraser.html">Paraphraser</a>
+          <a href="grammerchecker.html">Grammar Checker</a>
+          <a href="summarizer.html">Summarizar</a>
+          <a href="imagerec.html">Image Reader Pro</a>
+    <label for="darkModeToggle">
+      &nbsp;
+      <input type="checkbox" id="darkModeToggle">
+      <span class="toggle-slider"></span>
+    </label>
+          
+
+    
+      </div>
+      <!-- <div class="premium">
+        <a href="#" style="text-decoration: none; color: #333;">Premium</a>
+      </div> -->
+  </div>
+  <div class="container">
+    <div class="header2" style="background-color: rgba(0,187,136,255);text-align: center;padding: 10px;margin-top: -20px;margin-bottom: 20px;">
+      <h1 style="color: rgb(255, 255, 255);">Try your favourite AI tool</h1>
+      <p style="color:rgb(255, 255, 255);">Simplify. Optimize. Succeed. With AI.</p>
+    </div>
+<div class="grid">
+  <div class="card">
+    <h5 class="card-title">Image Reader Pro 📸</h5>
+    <p class="card-text">Analyzes images & give results</p>
+    <a href="imagerec.html" class="btn btn-primary">Try Now ✨</a>
+  </div>
+  <div class="card">
+    <h5 class="card-title">Paraphraser 📝</h5>
+    <p class="card-text">Rewrites text with different words.</p>
+    <a href="paraphraser.html" class="btn btn-primary">Try Now ✨</a>
+  </div>
+  <div class="card">
+    <h5 class="card-title">Grammar Checker ✅</h5>
+    <p class="card-text">Corrects errors in your writing.</p>
+    <a href="grammerchecker.html" class="btn btn-primary">Try Now ✨</a>
+  </div>
+  <div class="card">
+    <h5 class="card-title">Summarizer ✒️</h5>
+    <p class="card-text">Condenses text into a shorter version </p>
+    <a href="summarizer.html" class="btn btn-primary">Try Now ✨</a>
+  </div>
+  <div class="card">
+    <h5 class="card-title">AI Detector 🪄</h5>
+    <p class="card-text">Sniffs out AI-made contents</p>
+    <a href="#" class="btn btn-primary">Soon.. 🔒</a>
+  </div>
+  <div class="card">
+    <h5 class="card-title">Code Bot 🤖</h5>
+    <p class="card-text">Suggests a deep idea & writing codes.</p>
+    <a href="#" class="btn btn-primary">Soon..  🔒</a>
+  </div>
+</div>
+<div class="footer">
+        <p>Made by Pramod with 💗 | © 2024 | 𝗔𝗹𝗹 𝗥𝗶𝗴𝗵𝘁𝘀 𝗥𝗲𝘀𝗲𝗿𝘃𝗲𝗱.</p>
+      </div>
+
+<script type="module">
+  const darkModeToggle = document.getElementById("darkModeToggle");
+
+darkModeToggle.addEventListener("click", () => {
+  document.body.classList.toggle("dark");
+
+  // Optionally, save user preference using localStorage:
+  localStorage.setItem("darkMode", document.body.classList.contains("dark"));
+});
+
+// Check for saved preference:
+const isDarkModeEnabled = localStorage.getItem("darkMode") === "true";
+if (isDarkModeEnabled) {
+  document.body.classList.add("dark");
+}
+
+</script>
+</body>
+</html>
