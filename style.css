@@ -526,6 +526,11 @@ label[for="imageInput"]:hover {
   .card-text {
     font-size: 11px; /* Adjust as needed */
   }
+
+  .image-reader {
+    font-size: 9px;
+    
+  }
 }
 
 @media only screen and (max-width: 600px) {
@@ -535,12 +540,69 @@ label[for="imageInput"]:hover {
     margin: 0 auto;
   }
 
+  
+
   /* Reduce spaces between navigation items */
   .nav a {
     margin: 2px 0; /* Adjust spacing as needed */
   }
 }
 
+/* Add this to your style.css file */
 
+/* Skill box container */
+.skill-box {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+  padding: 10px;
+  border-radius: 5px;
+  background-color: #f8fdb2;
+  box-shadow: 0px 0px 5px rgb(255, 115, 1);
+  position: relative; /* For tooltip positioning */
+}
+
+.skill-box .title {
+  font-weight: bold;
+  margin: 0 10px;
+}
+
+.skill-box .progress-bar {
+  width: 100%;
+  height: 10px;
+  border-radius: 5px;
+  position: relative; /* For tooltip positioning */
+  background-color: #ccc;
+}
+
+.skill-box .progress-bar .progress {
+  height: 100%;
+  background: linear-gradient(to right, #f44336 0%, #f44336 25%, #f44336 75%, #f44336 100%);
+  transition: width 0.3s ease-in-out;
+  scrollbar-shadow-color: #212121; /* Animation for width change */
+}
+
+/* Tooltip for progress bar */
+/* Add this to your CSS file */
+.skill-box .progress-bar .tooltip {
+  position: absolute;
+  top: -35px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #333;
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 12px;
+  text-align: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s ease-in-out, visibility 0.2s ease-in-out;
+}
+
+.skill-box .progress-bar:hover .tooltip {
+  opacity: 1;
+  visibility: visible;
+}
 
 
