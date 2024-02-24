@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Toolxai</title>
+  <link rel="icon" href="assets/header.png">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="header">
+        <div class="logo">
+          <img src="assets\toolxai.png" alt="ToolXai">
+        </div>
+        <div class="nav">
+      <a href="index.html">Home</a>
+            <a href="#">Paraphraser</a>
+            <a href="grammerchecker.html">Grammar Checker</a>
+            <a href="summarizer.html">Summarizar</a>
+            <a href="imagerec.html">Image Reader Pro</a>
+    <label for="darkModeToggle">
+      &nbsp;
+      <input type="checkbox" id="darkModeToggle">
+      <span class="toggle-slider"></span>
+    </label>
+          
+
+    
+      </div>
+      <!-- <div class="premium">
+        <a href="#" style="text-decoration: none; color: #333;">Premium</a>
+      </div> -->
+  </div>
+  <div class="container">
+    <div class="header2">
+      <h1 style="color: rgb(255, 255, 255);">AI Detector </h1>
+      <p style="color:rgb(255, 255, 255);">Check, Detect, AI Contents</p>
+    </div>
+    <div class="main">
+      <div class="input">
+          <textarea id="inputText" style="margin-top: -10px;
+  margin-bottom: -10px; font-size: 16px;" maxlength="5000" placeholder="Enter your input text here..."></textarea>
+      </div>
+      <div class="output">
+        <div id="loadingIndicator" style="display: none;">Checking...</div>
+        <div class="skill-box">
+          <div class="title">Human</div>
+          <div class="progress-bar">
+            <div id="scoreBar" class="progress" style="width: 0;"></div>
+            <div class="tooltip">0%</div>
+          </div>
+          <div class="title">AI</div>
+        </div>
+      <div class="buttons">
+          <button id="paraphrasebtn"><p style="font-size: 10px;color: #ffffff;"><b>Check</b></p></button>
+        <button id="clearbtn"><p style="font-size: 10px;color: #ffffff;"><b>Clear</b></p></button>
+      </div>
+    </div>
+<div class="image-reader">
+  <h1>AI Detector</h1>
+  <p>Understands the input and generates natural paraphrases.</p>
+
+  <div class="superpowers">
+    <h2>Superpowers: 💡</h2>
+    <ul>
+      <li>Preserves the original writing style and tone.</li>
+      <li>Provides various options for creativity and accuracy.</li>
+      <li>Ensures grammatical correctness and smooth flow in reworded text.</li>
+      <li>Compatible with multiple languages.</li>
+    </ul>
+  </div>
+
+  <div class="keep-in-mind">
+    <h2>Things to Keep in Mind:⭕</h2>
+    <ul>
+      <li>May not achieve perfection, especially with intricate text.</li>
+      <li>Editing may be required for precision and tone.</li>
+      <li>Not a substitute for individual creativity and critical thinking.</li>
+      <li>Ethical use of paraphrased content is essential for AI detection tools in paragraph analysis.</li>
+    </ul>
+  </div>
+</div>
+
+    <div class="footer">
+      <p>Made by Pramod with 💗 | © 2024 | 𝗔𝗹𝗹 𝗥𝗶𝗴𝗵𝘁𝘀 𝗥𝗲𝘀𝗲𝗿𝘃𝗲𝗱.</p>
+<p>Follow or contact via</p>
+<a href="https://www.facebook.com/pmdsrl" target="_blank">
+  <img src="assets/icons8-facebook-30.png">
+</a>
+<a href="https://wa.link/n4tik7" target="_blank">
+  <img src="assets/icons8-whatsapp-30.png">
+</a>
+    </div>
+  </div>
+  <script type="importmap">
+    {
+      "imports": {
+        "@google/generative-ai": "https://esm.run/@google/generative-ai"
+      }
+    }
+  </script>
+  <script type="module">
+  // Import necessary modules
+import { GoogleGenerativeAI } from "@google/generative-ai";
+import { HarmCategory, HarmBlockThreshold } from "@google/generative-ai";
+
+// Fetch your API_KEY
+const API_KEY = "AIzaSyAOxbcA3X5QDZcsKX8CIcn63kJfBGaQRS4";
+
+// Access your API key (see "Set up your API key" above)
+const genAI = new GoogleGenerativeAI(API_KEY);
+
+// Function to get AI detection value
+async function getResponseFromAPI() {
+  // Implement the logic to get the AI detection value from your API
+  // For now, let's assume a dummy value (replace this with your actual logic)
+  return Math.floor(Math.random() * 100); // Returns a random value between 0 and 100
+}
+
+// Function to run the application
+async function run() {
+  const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+
+  const inputText = document.getElementById("inputText");
+  const loadingIndicator = document.getElementById("loadingIndicator");
+  const paraphraseBtn = document.getElementById("paraphrasebtn");
+  const clearBtn = document.getElementById("clearbtn");
+
+  paraphraseBtn.addEventListener("click", async () => {
+    if (inputText.value.trim() === "") {
+      // Display an error message or perform any desired action
+      return;
+    }
+
+    const parts = [{ text: `identify this paragraph ai written or human written then give ai written percentage only (only give percentage value without %)"${inputText.value}"` }];
+    const generationConfig = {
+      temperature: 0.9,
+      topK: 1,
+      topP: 1,
+      maxOutputTokens: 2048,
+    };
+
+    const safetySettings = [
+      { category: HarmCategory.HARM_CATEGORY_HARASSMENT, threshold: HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE },
+      { category: HarmCategory.HARM_CATEGORY_HATE_SPEECH, threshold: HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE },
+      { category: HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT, threshold: HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE },
+      { category: HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT, threshold: HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE },
+    ];
+
+    loadingIndicator.style.display = "block";
+
+    const result = await model.generateContent({
+      contents: [{ role: "user", parts }],
+      generationConfig,
+      safetySettings,
+    });
+
+    
+
+    const response = await result.response;
+    const aiDetectionValue = await getResponseFromAPI();
+
+    document.getElementById("scoreBar").style.width = `${aiDetectionValue}%`;
+    
+
+    
+
+    // Additional logic or updates based on the AI detection value can be added here
+
+    loadingIndicator.style.display = "none";
+
+    const currentInputText = inputText.value.trim();
+  const previouslyCheckedText = localStorage.getItem("checkedText");
+  const previouslyCheckedScore = localStorage.getItem("checkedScore");
+
+  if (currentInputText === previouslyCheckedText) {
+    // Same input text, reuse the previous score
+    scoreBar.style.width = `${previouslyCheckedScore}%`;
+  } else {
+    // Different input text, proceed with checking
+    // ... your existing code for checking and updating the score ...
+
+    // Store the checked text and score for future reference
+    localStorage.setItem("checkedText", currentInputText);
+    localStorage.setItem("checkedScore", aiDetectionValue);
+  }
+    
+  });
+
+  
+
+  clearBtn.addEventListener("click", () => {
+      inputText.value = "";
+      const scoreBar = document.getElementById("scoreBar");
+  scoreBar.style.width = "0%";
+
+  const tooltip = scoreBar.querySelector(".tooltip");
+  if (tooltip) {
+    tooltip.textContent = "0% AI";
+  }
+    });
+}
+
+const darkModeToggle = document.getElementById("darkModeToggle");
+
+darkModeToggle.addEventListener("click", () => {
+  document.body.classList.toggle("dark");
+
+  // Optionally, save user preference using localStorage:
+  localStorage.setItem("darkMode", document.body.classList.contains("dark"));
+});
+
+// Check for saved preference:
+const isDarkModeEnabled = localStorage.getItem("darkMode") === "true";
+if (isDarkModeEnabled) {
+  document.body.classList.add("dark");
+}
+
+// Run the application when the script is loaded
+run();
+
+    
+  </script>
+</body>
+</html>
